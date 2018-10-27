@@ -1,0 +1,32 @@
+{
+  "name": "file-storage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server-dev": "cross-env NODE_ENV=dev nodemon index.js"
+  },
+  "_moduleAliases": {
+    "@routes": "routes",
+    "@controllers": "controllers",
+    "@configuration": "configuration",
+    "@root": ".",
+    "@test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "await-to-js": "^2.0.1",
+    "config": "^2.0.1",
+    "cors": "^2.8.4",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.0.0-alpha.1",
+    "ip": "^1.1.5",
+    "mkdirp": "^0.5.1",
+    "module-alias": "^2.1.0",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
+  }
+}

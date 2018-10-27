@@ -1,0 +1,6 @@
+{
+    "JWT_SECRET": "htJIPMqj9PlWjm4iF7Npcmgu3FPt9Sy0gcIrDFRJ",
+    "fileSettings": {
+        "validExtensions": ["png", "jpg", "jpeg", "pdf", "doc", "docx"]
+    }
+}
