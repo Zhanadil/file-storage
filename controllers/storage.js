@@ -109,7 +109,9 @@ module.exports = {
                         }
 
                         return res.status(200).json({
-                            link: path.join(`${ip.address()}:${process.env.PORT}`, 'get', path.join(fileDirectory, file.name))
+                            link: path.join(`${ip.address()}:${process.env.PORT}`, 'get', path.join(fileDirectory, file.name)),
+                            fileName: file.name,
+                            mimeType: file.mimetype,
                         });
                     });
                 } else {
