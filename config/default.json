@@ -3,5 +3,5 @@
     "fileSettings": {
         "validExtensions": ["png", "jpg", "jpeg", "pdf", "doc", "docx"]
     },
-    "RESOURCES_DIRECTORY": "/srv/love2work/dev/resources"
+    "RESOURCES_DIRECTORY": "/srv/freelance/dev/resources"
 }
