@@ -6,7 +6,7 @@ const passportConfig = require('@root/passport');
 
 const StorageController = require('@controllers/storage');
 
-router.post('/media',
+router.put('/media',
     passport.authenticate('jwt-general', { session: false }),
     StorageController.uploadMedia
 );
