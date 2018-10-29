@@ -4,13 +4,7 @@ const to = require('await-to-js').default;
 const path = require('path');
 const config = require('config');
 const ip = require('ip');
-
-const validFileName = /^[,.\-_\(\)a-zA-Z0-9а-яА-Я]+.[a-zA-Z]+$/;
-
-// Вспомогательная функция, которая проверяет название файла на валидность
-const checkFileName = function(fileName) {
-    return validFileName.test(fileName);
-}
+const nanoid = require('nanoid');
 
 // Вспомогательная функция, которая проверяет если расширение файла в списке одобренных
 const checkFileExtension = function(fileName) {
@@ -44,14 +38,6 @@ const checkFiles = function(files) {
     }
     var file = files.file;
 
-    // Проверяем, что файл не имеет лишних символов
-    if (!checkFileName(file.name)) {
-        return {
-            statusCode: 400,
-            message: 'invalid file name'
-        };
-    }
-
     // Проверка на расширение файла
     try {
         if (!checkFileExtension(file.name)) {
@@ -71,15 +57,18 @@ const checkFiles = function(files) {
 
 module.exports = {
     // Функция осуществляет загрузку файлов на сервер
-    // Прежде всего название файла и его расширение должны быть валидны
-    // Размер файла не должен привышать лимит
-    uploadMedia: (req, res, next) => {
+    // Расширение должно быть валидно
+    uploadMedia: async (req, res, next) => {
         const filesCheck = checkFiles(req.files);
         if (filesCheck) {
             return res.status(filesCheck.statusCode).send(filesCheck.message);
         }
 
         const file = req.files.file;
+
+        const fileNameSubstrings = file.name.split('.');
+        const hash = await nanoid();
+        const fileHashName = `${hash}.${fileNameSubstrings[fileNameSubstrings.length - 1]}`;
 
         // Название папки файла внутри директории ресурсов
         const fileDirectory =
@@ -95,7 +84,7 @@ module.exports = {
                 return res.status(500).send(err.message);
             }
 
-            const fileName = path.join(fullFileDirectory, file.name);
+            const fileName = path.join(fullFileDirectory, fileHashName);
             // Смотрим статистику файла с таким названием
             fs.stat(fileName, async function(err, stat) {
                 if(err === null) {
@@ -109,8 +98,7 @@ module.exports = {
                         }
 
                         return res.status(200).json({
-                            link: path.join(`${ip.address()}:${process.env.PORT}`, 'get', path.join(fileDirectory, file.name)),
-                            fileName: file.name,
+                            link: path.join(`http://${ip.address()}:${process.env.PORT}`, 'get', path.join(fileDirectory, fileHashName)),
                             mimeType: file.mimetype,
                         });
                     });
