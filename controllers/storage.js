@@ -98,7 +98,7 @@ module.exports = {
                         }
 
                         return res.status(200).json({
-                            link: path.join(`http://${ip.address()}:${process.env.PORT}`, 'get', path.join(fileDirectory, fileHashName)),
+                            link: 'http://' + path.join(`${ip.address()}:${process.env.PORT}`, 'get', path.join(fileDirectory, fileHashName)),
                             mimeType: file.mimetype,
                         });
                     });
